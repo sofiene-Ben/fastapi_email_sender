@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: fastapi-mail-sender
+    env: docker
+    repo: https://github.com/sofiene-Ben/fastapi_email_sender
+    region: oregon  # ou frankfurt si tu veux l’Europe
+    plan: free
+    envVars:
+      - key: SMTP_SERVER
+        value: smtp.example.com
+      - key: SMTP_USER
+        value: user@example.com
+      - key: SMTP_PASSWORD
+        value: password
