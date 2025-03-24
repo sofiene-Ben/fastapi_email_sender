@@ -12,3 +12,7 @@ services:
         value: user@example.com
       - key: SMTP_PASSWORD
         value: password
+      - KEY: MAX_FILE_SIZE
+        value: 22000000
+      - KEY: DEFAULT_RECIPIENT
+        value: exemple@hotmail.com
