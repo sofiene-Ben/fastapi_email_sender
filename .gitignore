@@ -3,6 +3,7 @@
 .env.local
 .env.production
 .env.*.local
+docker-compose.yml
 
 # Ignorer les fichiers de dépendances
 __pycache__/
