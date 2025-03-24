@@ -1,0 +1,20 @@
+# Ignorer les fichiers d'environnement
+.env
+.env.local
+.env.production
+.env.*.local
+
+# Ignorer les fichiers de dépendances
+__pycache__/
+*.pyc
+*.pyo
+
+# Ignorer les logs et fichiers temporaires
+logs/
+*.log
+*.sqlite
+*.db
+
+# Ignorer les fichiers de l'éditeur
+.vscode/
+.idea/
