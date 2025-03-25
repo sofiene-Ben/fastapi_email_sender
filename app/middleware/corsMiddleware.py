@@ -9,4 +9,3 @@ async def verify_api_key(request: Request, call_next):
         if not api_key or api_key != Settings.api_key:
             return JSONResponse(status_code=403, content={"detail": "Clé API invalide"})
     return await call_next(request)
-

@@ -18,7 +18,7 @@ app.add_middleware(
 )
 
 app.state.limiter = limiter
-app.middleware("http")(verify_api_key)
+# app.middleware("http")(verify_api_key)
 app.add_exception_handler(RateLimitExceeded, rate_limit_exceeded_handler)
 
 register_rate_limit_handler(app)

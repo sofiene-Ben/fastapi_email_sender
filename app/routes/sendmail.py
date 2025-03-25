@@ -1,6 +1,6 @@
 from fastapi import Request, UploadFile, BackgroundTasks, APIRouter, HTTPException, Form, File, Depends
 from fastapi.security import APIKeyHeader
-# from slowapi import Limiter
+from slowapi import Limiter
 from app.security.limiter import limiter
 from app.config.app import Settings
 from app.services.mailsender_service import is_valid_filename, send_email
@@ -11,6 +11,7 @@ email_router = APIRouter(prefix="/api")
 api_key_header = APIKeyHeader(name="X-API-KEY")
 
 @email_router.post("/send-email/", dependencies=[Depends(api_key_header)])
+# @email_router.post("/send-email/")
 @limiter.limit("5/minute")  # Autoriser 5 requêtes par minute par IP
 @limiter.limit("20/hour") 
 async def send_email_endpoint(
