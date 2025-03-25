@@ -1,11 +1,19 @@
 from slowapi import Limiter
-from slowapi.util import get_remote_address
+# from slowapi.util import get_remote_address
 from fastapi.responses import JSONResponse
 from slowapi.errors import RateLimitExceeded
 from fastapi import Request, FastAPI
 
 
-limiter = Limiter(key_func=get_remote_address)
+# Fonction pour récupérer l'adresse IP réelle
+def custom_get_remote_address(request: Request) -> str:
+    forwarded_for = request.headers.get("X-Forwarded-For")
+    if forwarded_for:
+        return forwarded_for.split(",")[0]  # Récupère la première IP (celle du client réel)
+    return request.client.host  # Fallback si pas d'IP dans l'en-tête
+
+
+limiter = Limiter(key_func=custom_get_remote_address)
 
 # app.state.limiter = limiter
 
