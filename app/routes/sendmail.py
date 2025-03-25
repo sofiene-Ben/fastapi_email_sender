@@ -17,14 +17,38 @@ api_key_header = APIKeyHeader(name="X-API-KEY")
 async def send_email_endpoint(
     request: Request,
     background_tasks: BackgroundTasks,
-    subject: str = Form(...),
-    body: str = Form(...),
+    firstnam: str = Form(...),
+    name: str = Form(...),
+    phone: str = Form(...),
+    mail: str = Form(...),
+    student: str = Form(...),  # Récupération du bouton radio
+    colis_time: str = Form(...),  # Récupération du bouton radio
+    colis_type: str = Form(...),  # Récupération du bouton radio
+    subject: str = Form("Demande d'inscription"),  # Sujet par défaut
     file: UploadFile = File(None)
 ):
     recipient = Settings.default_recipient  # Toujours envoyer à l'email fixe
+    subject = "Demade d'inscription"
 
     if not recipient:
         raise HTTPException(status_code=500, detail="Aucun destinataire défini dans les variables d'environnement")
+
+# 📝 Construction dynamique du corps de l'email
+    body = f"""
+    📩 Nouvelle demande d'inscription :
+
+    🔹 **Nom** : {name}
+    🔹 **Prénom** : {firstnam}
+    🔹 **Téléphone** : {phone}
+    🔹 **Email** : {mail}
+    🔹 **Etudiant de l'IRTS ? : {student}
+    🔹 **Jour de distribution* : {colis_time}
+    🔹 **Type de colis : {colis_type}
+
+
+    Merci de traiter cette demande rapidement.
+    """
+
 
     file_content = None
     filename = None
