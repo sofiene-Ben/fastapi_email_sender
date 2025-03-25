@@ -16,3 +16,7 @@ services:
         value: 22000000
       - KEY: DEFAULT_RECIPIENT
         value: exemple@hotmail.com
+      - key: CORS
+        value: cors
+      - KEY: API_KEY
+        value: your_secret_key
