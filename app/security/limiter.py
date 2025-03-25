@@ -2,6 +2,7 @@ from slowapi import Limiter
 from slowapi.util import get_remote_address
 from fastapi.responses import JSONResponse
 from slowapi.errors import RateLimitExceeded
+from fastapi import Request, FastAPI
 
 
 limiter = Limiter(key_func=get_remote_address)
@@ -15,3 +16,7 @@ async def rate_limit_exceeded_handler(request, exc):
         content={"message": "Trop de requêtes. Réessaie plus tard."},
     )
 
+# Fonction pour attacher l'exception handler à l'application FastAPI
+def register_rate_limit_handler(app: FastAPI):
+    app.state.limiter = limiter  # Associer le rate limiter à l'application
+    app.add_exception_handler(RateLimitExceeded, rate_limit_exceeded_handler)
