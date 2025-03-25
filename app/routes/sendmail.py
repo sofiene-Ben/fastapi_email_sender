@@ -10,8 +10,8 @@ email_router = APIRouter(prefix="/api")
 
 api_key_header = APIKeyHeader(name="X-API-KEY")
 
-@email_router.post("/send-email/", dependencies=[Depends(api_key_header)])
-# @email_router.post("/send-email/")
+# @email_router.post("/send-email/", dependencies=[Depends(api_key_header)])
+@email_router.post("/send-email/")
 @limiter.limit("5/minute")  # Autoriser 5 requêtes par minute par IP
 @limiter.limit("20/hour") 
 async def send_email_endpoint(
