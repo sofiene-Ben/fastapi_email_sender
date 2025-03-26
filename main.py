@@ -6,7 +6,14 @@ from app.middleware.corsMiddleware import verify_api_key
 from app.security.limiter import limiter, rate_limit_exceeded_handler, register_rate_limit_handler
 from app.routes.sendmail import email_router
 
-app = FastAPI()
+app = FastAPI(
+    title="mail sender",
+    description="API pour envoyer des emails",
+    version="1.0",
+    docs_url="/docs" if Settings.debug else None,  # Swagger UI
+    redoc_url="/redoc" if Settings.debug else None,  # ReDoc
+    openapi_url="/openapi.json" if Settings.debug else None  # OpenAPI JSON
+)
 
 
 app.add_middleware(

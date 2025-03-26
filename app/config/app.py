@@ -16,6 +16,8 @@ class Settings():
 
     cors: str = str(os.getenv("CORS", r'https?://(localhost|127\.0\.0\.1|0\.0\.0\.0|192\.168\.1\.143)(:\d+)?'))
 
+    # Ajout du paramètre DEBUG
+    debug: bool = os.getenv("DEBUG", "False").lower() == "true"
 
 
 

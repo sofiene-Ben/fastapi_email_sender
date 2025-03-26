@@ -20,3 +20,5 @@ services:
         value: cors
       - KEY: API_KEY
         value: your_secret_key
+      - KEY: DEBUG
+        value: false
