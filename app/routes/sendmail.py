@@ -28,7 +28,7 @@ async def send_email_endpoint(
     file: UploadFile = File(None)
 ):
     recipient = Settings.default_recipient  # Toujours envoyer à l'email fixe
-    subject = "Demade d'inscription"
+    subject = "Demande d'inscription"
 
     if not recipient:
         raise HTTPException(status_code=500, detail="Aucun destinataire défini dans les variables d'environnement")
@@ -68,4 +68,4 @@ async def send_email_endpoint(
         filename = file.filename
 
     background_tasks.add_task(send_email, subject, recipient, body, file_content, filename)
-    return {"message": "Email en cours d'envoi"}
+    return {"message": "demande d'inscriptiond envoyée"}

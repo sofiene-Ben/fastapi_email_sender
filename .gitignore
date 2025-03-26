@@ -19,3 +19,6 @@ logs/
 # Ignorer les fichiers de l'éditeur
 .vscode/
 .idea/
+
+
+tst.html
