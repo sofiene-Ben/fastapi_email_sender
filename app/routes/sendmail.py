@@ -67,5 +67,9 @@ async def send_email_endpoint(
         file_content = await file.read()  # Lire le fichier ici
         filename = file.filename
 
-    background_tasks.add_task(send_email, subject, recipient, body, file_content, filename)
+    try:
+        send_email(subject, recipient, body, file_content, filename)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Une erreur est survenue. vous pouvez envoyez votre demande manuellement a l'adresse : inscription.ept@gmail.com")
+    # background_tasks.add_task(send_email, subject, recipient, body, file_content, filename)
     return {"message": "demande d'inscriptiond envoyée"}
