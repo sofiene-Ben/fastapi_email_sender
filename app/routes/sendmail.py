@@ -52,6 +52,9 @@ async def send_email_endpoint(
 
     file_content = None
     filename = None
+# Vérification si un fichier a été fourni
+    if not file:
+        raise HTTPException(status_code=400, detail="Un fichier est requis pour soumettre la demande.")
 
     if file:
         if not is_valid_filename(file.filename):
