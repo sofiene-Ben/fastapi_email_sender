@@ -25,13 +25,30 @@ async def send_email_endpoint(
     colis_time: str = Form(...),  # Récupération du bouton radio
     colis_type: str = Form(...),  # Récupération du bouton radio
     subject: str = Form("Demande d'inscription"),  # Sujet par défaut
-    file: UploadFile = File(None)
+    file: UploadFile = File(...)
 ):
     recipient = Settings.default_recipient  # Toujours envoyer à l'email fixe
     subject = "Demande d'inscription"
 
     if not recipient:
         raise HTTPException(status_code=500, detail="Aucun destinataire défini dans les variables d'environnement")
+    if not firstnam:
+        raise HTTPException(status_code=400, detail="Le prénom est obligatoire")
+    if not name:
+        raise HTTPException(status_code=400, detail="Le nom est obligatoire")
+    if not phone:
+        raise HTTPException(status_code=400, detail="Le téléphone est obligatoire")
+    if not mail:
+        raise HTTPException(status_code=400, detail="L'email est obligatoire")
+    if not student:
+        raise HTTPException(status_code=400, detail="L'information sur l'étudiant est obligatoire")
+    if not colis_time:
+        raise HTTPException(status_code=400, detail="Le jour de distribution est obligatoire")
+    if not colis_type:
+        raise HTTPException(status_code=400, detail="Le type de colis est obligatoire")
+# Vérification si un fichier a été fourni
+    if not file:
+        raise HTTPException(status_code=400, detail="Un fichier est requis pour soumettre la demande.")
 
 # 📝 Construction dynamique du corps de l'email
     body = f"""
@@ -52,9 +69,6 @@ async def send_email_endpoint(
 
     file_content = None
     filename = None
-# Vérification si un fichier a été fourni
-    if not file:
-        raise HTTPException(status_code=400, detail="Un fichier est requis pour soumettre la demande.")
 
     if file:
         if not is_valid_filename(file.filename):
@@ -66,6 +80,8 @@ async def send_email_endpoint(
 
         if file_size > Settings.max_file_size:
             raise HTTPException(status_code=400, detail="Le fichier dépasse la taille maximale de 22 Mo")
+        if file_size == 0:
+            raise HTTPException(status_code=400, detail="Le fichier ne peut pas être vide.")
 
         file_content = await file.read()  # Lire le fichier ici
         filename = file.filename
