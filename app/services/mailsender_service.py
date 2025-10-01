@@ -2,6 +2,8 @@ import smtplib
 import email.message
 import mimetypes
 import re
+
+from fastapi import HTTPException
 from app.config.app import Settings
 
 # Extensions autorisées
@@ -34,8 +36,12 @@ def send_email(subject: str, recipient: str, body: str, file_content=None, filen
         maintype, subtype = content_type.split("/") if "/" in content_type else ("application", "octet-stream")
         msg.add_attachment(file_content, maintype=maintype, subtype=subtype, filename=filename)
 
-    # Envoi de l'email
-    with smtplib.SMTP(Settings.smtp_server, Settings.smtp_port) as server:
-        server.starttls()
-        server.login(Settings.smtp_username, Settings.smtp_password)
-        server.send_message(msg)
+    try:
+        # Envoi de l'email
+        with smtplib.SMTP(Settings.smtp_server, Settings.smtp_port) as server:
+            server.starttls()
+            server.login(Settings.smtp_username, Settings.smtp_password)
+            server.send_message(msg)
+    except Exception as e:
+        print("SMTP ERROR:", e)
+        raise HTTPException(status_code=500, detail=str(e))
