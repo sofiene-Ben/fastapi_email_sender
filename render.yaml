@@ -22,3 +22,11 @@ services:
         value: your_secret_key
       - KEY: DEBUG
         value: false
+      - KEY: MAILGUN_API_KEY
+        value: your_mailgun_api_key
+      - key: MAILGUN_DOMAIN
+        value: your_mailgun_domain
+      - key: MAILGUN_FROM
+        value: your_mailgun_from
+      - key: MAILGUN_TO
+        value: your_mailgun_to
